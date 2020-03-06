@@ -18,6 +18,8 @@
 # [5,6]
 
 from typing import List
+
+
 class Solution:
     def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
         for num in nums:
