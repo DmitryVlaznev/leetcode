@@ -90,3 +90,11 @@ console.log("true", checkOverlap(1, 0, 0, -1, 0, 0, 1));
 console.log("true", checkOverlap(1, 1, 1, -3, -3, 3, 3));
 console.log("false", checkOverlap(1, 1, 1, 1, -3, 2, -1));
 console.log("true", checkOverlap(1, 0, 0, 1, -1, 3, 1));
+
+// Nice python solution
+// [max(x1,min(xc,x2)), max(y1,min(yc,y2))] - the nearest point
+//
+// def checkOverlap(self, r, xc, yc, x1, y1, x2, y2):
+//     a = (xc-max(x1,min(xc,x2)))**2
+//     b = (yc-max(y1,min(yc,y2)))**2
+//     return r*r >= a + b
