@@ -52,7 +52,6 @@ class KthLargest:
 
             self.heap[ci], self.heap[index] = self.heap[index], self.heap[ci]
             index = ci
-        pass
 
     def add(self, val: int) -> int:
         if self.size >= self.target and val <= self.heap[1]:

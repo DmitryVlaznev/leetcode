@@ -33,33 +33,80 @@ from typing import List
 
 
 class Solution:
+
+
     def lastStoneWeight(self, stones: List[int]) -> int:
-        heaviest = 0
-        buckets = [0] * 1000
-        for stone in stones:
-            heaviest = max(heaviest, stone)
-            buckets[stone] += 1
+        def sink(index, heap, size):
+            while index * 2 <= size:
+                ci = index * 2
+                if ci + 1 <= size and heap[ci + 1] > heap[ci]: ci += 1
+                if heap[index] >= heap[ci]: break
 
-        p = heaviest
-        x = y = None
-        while True:
-            while p >= 0 and buckets[p] == 0: p -= 1
-            if p < 0: return 0
-            y = p
-            buckets[p] -= 1
+                heap[ci], heap[index] = heap[index], heap[ci]
+                index = ci
 
-            q = p
-            while q >= 0 and buckets[q] == 0: q -= 1
-            if q < 0: return y
-            x = q
-            buckets[q] -= 1
+        def pop(heap, size):
+            heap[1], heap[size] = heap[size], heap[1]
+            sink(1, heap, size - 1)
+            return heap[size], size - 1
 
+        def push(v, heap, size):
+            size += 1
+            i = size
+            heap[i] = v
+            parent = i // 2
+            while i > 1 and heap[i] > heap[parent]:
+                heap[i], heap[parent] = heap[parent], heap[i]
+                i = parent
+                parent = i // 2
+            return size
+
+        heap = [None] + stones[:]
+        size = len(stones)
+        p = size // 2
+        while p > 0:
+            sink(p, heap, size)
+            p -= 1
+
+        while size > 1:
+            y, size = pop(heap, size)
+            x, size = pop(heap, size)
             new_stone = y - x
-            if new_stone: buckets[new_stone] += 1
+            if new_stone: size = push(new_stone, heap, size)
+
+        if size: return pop(heap, size)[0]
+        return 0
+
+
+    # def lastStoneWeight(self, stones: List[int]) -> int:
+    #     heaviest = 0
+    #     buckets = [0] * 1000
+    #     for stone in stones:
+    #         heaviest = max(heaviest, stone)
+    #         buckets[stone] += 1
+
+    #     p = heaviest
+    #     x = y = None
+    #     while True:
+    #         while p >= 0 and buckets[p] == 0: p -= 1
+    #         if p < 0: return 0
+    #         y = p
+    #         buckets[p] -= 1
+
+    #         q = p
+    #         while q >= 0 and buckets[q] == 0: q -= 1
+    #         if q < 0: return y
+    #         x = q
+    #         buckets[q] -= 1
+
+    #         new_stone = y - x
+    #         if new_stone: buckets[new_stone] += 1
 
 t = Solution()
 print("1 = ", t.lastStoneWeight([2,7,4,1,8,1]))
 print("7 = ", t.lastStoneWeight([7]))
 print("0 = ", t.lastStoneWeight([]))
 print("3 = ", t.lastStoneWeight([2, 5]))
+print("5 = ", t.lastStoneWeight([5, 5, 5]))
+print("0 = ", t.lastStoneWeight([5, 5]))
 print("498 = ", t.lastStoneWeight([2, 500]))
