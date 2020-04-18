@@ -1,6 +1,7 @@
 {
     "python.pythonPath": ".venv/bin/python3.7",
     "cSpell.words": [
-        "heapify"
+        "heapify",
+        "heapq"
     ]
 }
