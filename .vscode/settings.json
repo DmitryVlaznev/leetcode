@@ -3,5 +3,6 @@
     "cSpell.words": [
         "heapify",
         "heapq"
-    ]
+    ],
+    "python.formatting.provider": "black"
 }
