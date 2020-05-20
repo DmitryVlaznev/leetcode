@@ -33,9 +33,9 @@ class Solution:
         l = len(nodes)
         node = TreeNode(nodes[i])
         ch_i = 2 * i + 1
-        node.left = Solution.fromArray(nodes, ch_i) if ch_i < l and nodes[i] != None else None
+        node.left = Solution.fromArray(nodes, ch_i) if ch_i < l and nodes[ch_i] != None else None
         ch_i += 1
-        node.right = Solution.fromArray(nodes, ch_i) if ch_i< l and nodes[i] != None else None
+        node.right = Solution.fromArray(nodes, ch_i) if ch_i< l and nodes[ch_i] != None else None
         return node
 
     diameter = None
