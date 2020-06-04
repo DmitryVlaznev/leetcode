@@ -29,7 +29,7 @@ class Solution:
 
 
 def log(correct, res):
-    if set(correct) == set(res): print("[v]", res)
+    if len(correct) == len(res) and set(correct) == set(res): print("[v]", res)
     else: print(">>> INCORRECT >>>", correct, " | ", res)
 
 t = Solution()
