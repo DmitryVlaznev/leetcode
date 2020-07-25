@@ -22,15 +22,6 @@ from typing import List
 
 class Solution:
     def findMin(self, nums: List[int]) -> int:
-        # l = -1
-        # r = len(nums)
-        # while r - l > 1:
-        #     mid = l + (r - l) // 2
-        #     right = nums[r] if r < len(nums) else nums[-1]
-        #     if nums[mid] > right: l = mid
-        #     else: r = mid
-        # return nums[r]
-
         l = -1
         r = len(nums) - 1
         while r - l > 1:
