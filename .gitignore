@@ -1,2 +1,3 @@
 /.nvm
 /.venv*
+__pycache__
