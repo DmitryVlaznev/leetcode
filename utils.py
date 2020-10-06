@@ -6,6 +6,12 @@ class ListNode:
         self.val = x
         self.next = None
 
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
 # Utility functions
 
 def listFromArray(values: List) -> ListNode:
@@ -26,6 +32,30 @@ def listToArray(head: ListNode) -> List:
         arr.append(cur.val)
         cur = cur.next
     return arr
+
+def treeToArray(root: TreeNode) -> List[int]:
+    if not root: return []
+    def preorder(node: TreeNode, depth: int, traversal: List[List[int]]):
+        while len(traversal) <= depth: traversal.append([])
+        if node:
+            traversal[depth].append(node.val)
+            traversal = preorder(node.left, depth + 1, traversal)
+            traversal = preorder(node.right, depth + 1, traversal)
+        else:
+            traversal[depth].append(None)
+        return traversal
+    res = [item for sublist in preorder(root, 0, []) for item in sublist]
+    while res[-1] == None: res.pop()
+    return res
+
+def treeFromArray(nodes: List[int], i: int) -> TreeNode:
+    l = len(nodes)
+    node = TreeNode(nodes[i])
+    ch_i = 2 * i + 1
+    node.left = treeFromArray(nodes, ch_i) if ch_i < l and nodes[ch_i] != None else None
+    ch_i += 1
+    node.right = treeFromArray(nodes, ch_i) if ch_i< l and nodes[ch_i] != None else None
+    return node
 
 # Result checkers
 
