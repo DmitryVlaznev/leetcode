@@ -19,70 +19,40 @@
 # rotate 3 steps to the right: 0->1->2->NULL
 # rotate 4 steps to the right: 2->0->1->NULL
 
-from typing import List
-
-
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+from utils import ListNode, listFromArray, listToArray, checkList
 
 class Solution:
-    @staticmethod
-    def fromArray(values: List) -> ListNode:
-        l = len(values)
-        if not l:
-            return None
-        head = ListNode(values[0])
-        cur = head
-        for i in range(1, l):
-            cur.next = ListNode(values[i])
-            cur = cur.next
-        return head
-
-    @staticmethod
-    def toArray(head: ListNode) -> List:
-        arr = []
-        cur = head
-        while cur:
-            arr.append(cur.val)
-            cur = cur.next
-        return arr
-
     def rotateRight(self, head: ListNode, k: int) -> ListNode:
-        # Find the length of the list, 1 pass
-        current_tail = head
-        l = 1
-        while current_tail and current_tail.next:
-            current_tail = current_tail.next
+        p = head
+        l = 0
+        while p:
             l += 1
+            p = p.next
+        if l < 2: return head
+        delta = k % l
+        if delta == 0: return head
 
-        if l < 2:
-            return head
+        p = head
+        while delta:
+            delta -= 1
+            p = p.next
 
-        if k % l == 0:
-            return head
+        q = head
+        while p.next:
+            q = q.next
+            p = p.next
 
-        # Find the new tail of the list, 1 pass
-        tail_index = l - k % l
-        tail = head
-        i = 1
-        while i < tail_index:
-            i += 1
-            tail = tail.next
-
-        current_tail.next = head
-        head = tail.next
-        tail.next = None
+        p.next = head
+        head = q.next
+        q.next = None
         return head
 
-test = Solution()
-print("[4, 5, 1, 2, 3] >> ", test.toArray(test.rotateRight(test.fromArray([1, 2, 3, 4, 5]), 2)))
-print("[4, 5, 1, 2, 3] >> ", test.toArray(test.rotateRight(test.fromArray([1, 2, 3, 4, 5]), 7)))
-print("[5, 1, 2, 3, 4] >> ", test.toArray(test.rotateRight(test.fromArray([1, 2, 3, 4, 5]), 1)))
-print("[1, 2, 3, 4, 5] >> ", test.toArray(test.rotateRight(test.fromArray([1, 2, 3, 4, 5]), 10)))
-print("[1] >> ", test.toArray(test.rotateRight(test.fromArray([1]), 3)))
-print("[1, 2] >> ", test.toArray(test.rotateRight(test.fromArray([1, 2]), 42)))
-print("[2, 1] >> ", test.toArray(test.rotateRight(test.fromArray([1, 2]), 43)))
-print("[] >> ", test.toArray(test.rotateRight(test.fromArray([]), 43)))
+t = Solution()
+
+checkList([4,5,1,2,3], listToArray(t.rotateRight(listFromArray([1,2,3,4,5]), 2)))
+checkList([4,5,1,2,3], listToArray(t.rotateRight(listFromArray([1,2,3,4,5]), 12)))
+checkList([1,2,3,4,5], listToArray(t.rotateRight(listFromArray([1,2,3,4,5]), 5)))
+checkList([1,2], listToArray(t.rotateRight(listFromArray([1,2]), 10)))
+checkList([2,1], listToArray(t.rotateRight(listFromArray([1,2]), 11)))
+checkList([2], listToArray(t.rotateRight(listFromArray([2]), 11)))
+checkList([2,0,1], listToArray(t.rotateRight(listFromArray([0,1,2]), 4)))
