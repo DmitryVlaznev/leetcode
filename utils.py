@@ -35,18 +35,45 @@ def listToArray(head: ListNode) -> List:
 
 def treeToArray(root: TreeNode) -> List[int]:
     if not root: return []
-    def preorder(node: TreeNode, depth: int, traversal: List[List[int]]):
-        while len(traversal) <= depth: traversal.append([])
-        if node:
-            traversal[depth].append(node.val)
-            traversal = preorder(node.left, depth + 1, traversal)
-            traversal = preorder(node.right, depth + 1, traversal)
-        else:
-            traversal[depth].append(None)
-        return traversal
-    res = [item for sublist in preorder(root, 0, []) for item in sublist]
+
+    def find_max_depth(node: TreeNode, depth: int):
+        """Find a max tree depth, counted from 1 (!!!)"""
+        res = depth
+        if node.left: res = max(res, find_max_depth(node.left, depth + 1))
+        if node.right: res = max(res, find_max_depth(node.right, depth + 1))
+        return res
+
+    def fill_array(node: TreeNode, i: int, arr: List[int]):
+        """A node index starts from 0 (for a root node)"""
+        arr[i] = node.val
+        if node.left: fill_array(node.left, 2 * i + 1, arr)
+        if node.right: fill_array(node.right, 2 * i + 2, arr)
+        return arr
+
+    depth = find_max_depth(root, 1)
+    max_nodes = (2 ** (depth + 1)) - 1
+
+    res = fill_array(root, 0, [None] * max_nodes)
     while res[-1] == None: res.pop()
     return res
+
+# The function below is incorrect
+# Returns [10,5,15,2,7,None,25,None,None,6,None,20] for [10,5,15,2,7,None,25,None,None,6,None,None,None,20]
+
+# def treeToArray(root: TreeNode) -> List[int]:
+#     if not root: return []
+#     def preorder(node: TreeNode, depth: int, traversal: List[List[int]]):
+#         while len(traversal) <= depth: traversal.append([])
+#         if node:
+#             traversal[depth].append(node.val)
+#             traversal = preorder(node.left, depth + 1, traversal)
+#             traversal = preorder(node.right, depth + 1, traversal)
+#         else:
+#             traversal[depth].append(None)
+#         return traversal
+#     res = [item for sublist in preorder(root, 0, []) for item in sublist]
+#     while res[-1] == None: res.pop()
+#     return res
 
 def treeFromArray(nodes: List[int], i: int) -> TreeNode:
     l = len(nodes)
