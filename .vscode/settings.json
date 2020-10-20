@@ -4,7 +4,7 @@
         "heapify",
         "heapq"
     ],
-    "python.formatting.provider": "autopep8",
+    "python.formatting.provider": "black",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
 }

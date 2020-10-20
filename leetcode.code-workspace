@@ -5,6 +5,8 @@
 		}
 	],
 	"settings": {
-		"python.pythonPath": "/usr/bin/python3"
+		"python.pythonPath": "/home/vlad/Projects/leetcode/.venv/bin/python",
+		"python.formatting.blackPath": "/home/vlad/Projects/leetcode/.venv/bin/black"
 	}
+
 }
