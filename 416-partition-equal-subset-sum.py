@@ -25,7 +25,8 @@ from typing import List
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         s = sum(nums)
-        if s % 2 or len(nums) < 2: return False
+        if s % 2 or len(nums) < 2:
+            return False
 
         t = s // 2
         complements = [False] * (t + 1)
@@ -33,10 +34,13 @@ class Solution:
         for n in nums:
             p = t
             while p - n >= 0:
-                if complements[p - n] == True: complements[p] = True
+                if complements[p - n] == True:
+                    complements[p] = True
                 p -= 1
-            if complements[t]: return True
+        if complements[t]:
+            return True
         return False
+
 
 def log(correct, res):
     if correct == res:
@@ -52,5 +56,4 @@ log(True, t.canPartition([11, 5, 1, 5]))
 log(False, t.canPartition([1, 2, 3, 5]))
 log(True, t.canPartition([1, 2, 3, 3, 7]))
 log(True, t.canPartition([1, 2, 3, 3, 5]))
-log(True, t.canPartition([23,13,11,7,6,5,5]))
-
+log(True, t.canPartition([23, 13, 11, 7, 6, 5, 5]))
