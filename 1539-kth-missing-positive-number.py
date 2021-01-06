@@ -33,19 +33,16 @@ from utils import checkValue
 
 class Solution:
     def findKthPositive(self, arr: List[int], k: int) -> int:
-        if not arr:
-            return k
-        p, q = 1, 0
-        while q < len(arr):
-            if p < arr[q]:
-                k -= 1
+        l, r = -1, len(arr)
+        while r - l > 1:
+            mid = l + (r - l) // 2
+            if arr[mid] - mid - 1 < k:
+                l = mid
             else:
-                q += 1
-
-            if k == 0:
-                return p
-            p += 1
-        return p + k - 1
+                r = mid
+        if l == -1:
+            return k
+        return arr[l] + k - (arr[l] - l - 1)
 
 
 t = Solution()
