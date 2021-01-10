@@ -31,7 +31,20 @@ from utils import checkValue
 
 
 class Solution:
+    # O(n)
     def lengthOfLongestSubstring(self, s: str) -> int:
+        seen, p, q, longest_length = {}, 0, 0, 0
+        while q < len(s):
+            if s[q] in seen and seen[s[q]] >= p:
+                p = seen[s[q]] + 1
+            else:
+                longest_length = max(longest_length, q - p + 1)
+            seen[s[q]] = q
+            q += 1
+        return longest_length
+
+    # O(2n)
+    def lengthOfLongestSubstring2(self, s: str) -> int:
         seen = set()
         p, q = 0, 0
         longest_length = 0
@@ -54,3 +67,6 @@ checkValue(3, t.lengthOfLongestSubstring("abcabcbb"))
 checkValue(1, t.lengthOfLongestSubstring("bbbbb"))
 checkValue(3, t.lengthOfLongestSubstring("pwwkew"))
 checkValue(0, t.lengthOfLongestSubstring(""))
+checkValue(1, t.lengthOfLongestSubstring(" "))
+checkValue(1, t.lengthOfLongestSubstring("d"))
+checkValue(4, t.lengthOfLongestSubstring("dret"))
