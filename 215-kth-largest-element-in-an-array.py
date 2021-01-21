@@ -15,14 +15,13 @@
 # You may assume k is always valid, 1 ≤ k ≤ array's length.
 
 
-# This problem is solved using quick selection just an exercise.
-# Using max heap is more effective
-
 from typing import List
+
 
 class Solution:
     def randomize(self, nums: List[int]):
         from random import randint
+
         for i in range(len(nums) - 1, 1, -1):
             random_index = randint(0, i - 2)
             nums[i], nums[random_index] = nums[random_index], nums[i]
@@ -41,9 +40,9 @@ class Solution:
                 gt -= 1
             else:
                 p += 1
-        return lt;
+        return lt
 
-    def findKthLargest(self, nums: List[int], k: int) -> int:
+    def findKthLargestQS(self, nums: List[int], k: int) -> int:
         if len(nums) == 1:
             return nums[0]
 
@@ -53,11 +52,25 @@ class Solution:
         ki = k - 1
         i = self.partition(nums, start, end)
         while i != ki:
-            if i > ki: end = i - 1
-            else: start = i + 1
+            if i > ki:
+                end = i - 1
+            else:
+                start = i + 1
             i = self.partition(nums, start, end)
 
         return nums[i]
+
+    # max_heap
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        import heapq
+
+        k_heap = nums[:k]
+        heapq.heapify(k_heap)
+        for n in nums[k:]:
+            heapq.heappush(k_heap, n)
+            heapq.heappop(k_heap)
+        return heapq.heappop(k_heap)
+
 
 test = Solution()
 
@@ -82,13 +95,13 @@ test = Solution()
 # print(arr)
 
 
-arr = [3,2,1,5,6,4]
+arr = [3, 2, 1, 5, 6, 4]
 print("5 = ", test.findKthLargest(arr, 2))
 
-arr = [3,2,3,1,2,4,5,5,6]
+arr = [3, 2, 3, 1, 2, 4, 5, 5, 6]
 print("4 = ", test.findKthLargest(arr, 4))
 
-arr = [3,2,3,1,2,4,5,5,6]
+arr = [3, 2, 3, 1, 2, 4, 5, 5, 6]
 print("6 = ", test.findKthLargest(arr, 1))
 
 arr = [1, 2]
