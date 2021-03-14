@@ -31,24 +31,28 @@ from typing import List
 
 
 class Solution:
-
     def __init__(self, w: List[int]):
         self.prefix = w[:]
-        for i in range(1, len(w)): self.prefix[i] += self.prefix[i - 1]
-        self.prefix[-1]
+        for i in range(1, len(w)):
+            self.prefix[i] += self.prefix[i - 1]
 
     def pickIndex(self) -> int:
         length = len(self.prefix)
-        if length == 1: return 0
+        if length == 1:
+            return 0
         l = -1
         r = length
         import random
+
         target = random.random() * self.prefix[-1]
         while r - l > 1:
             mid = l + (r - l) // 2
-            if self.prefix[mid] < target: l = mid
-            else: r = mid
+            if self.prefix[mid] < target:
+                l = mid
+            else:
+                r = mid
         return r if r < length else l
+
 
 print("----------")
 print([20, 50, 5, 25])
@@ -56,5 +60,5 @@ t = Solution([20, 50, 5, 25])
 res = [0] * 4
 for i in range(10000):
     res[t.pickIndex()] += 1
-print([i / 10000 for i in res])
+print([i / 100 for i in res])
 print(res)
