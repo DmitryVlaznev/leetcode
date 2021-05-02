@@ -1,5 +1,7 @@
 # 63. Unique Paths II
 
+# Medium
+
 # A robot is located at the top-left corner of a m x n grid (marked
 # 'Start' in the diagram below).
 
@@ -10,61 +12,53 @@
 # Now consider if some obstacles are added to the grids. How many unique
 # paths would there be?
 
-# An obstacle and empty space is marked as 1 and 0 respectively in the
-# grid.
-
-# Note: m and n will be at most 100.
+# An obstacle and space is marked as 1 and 0 respectively in the grid.
 
 # Example 1:
-# Input:
-# [
-#   [0,0,0],
-#   [0,1,0],
-#   [0,0,0]
-# ]
+# Input: obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
 # Output: 2
-
-# Explanation:
-# There is one obstacle in the middle of the 3x3 grid above.
+# Explanation: There is one obstacle in the middle of the 3x3 grid above.
 # There are two ways to reach the bottom-right corner:
 # 1. Right -> Right -> Down -> Down
 # 2. Down -> Down -> Right -> Right
 
+# Example 2:
+# Input: obstacleGrid = [[0,1],[0,0]]
+# Output: 1
+
+# Constraints:
+# m == obstacleGrid.length
+# n == obstacleGrid[i].length
+# 1 <= m, n <= 100
+# obstacleGrid[i][j] is 0 or 1.
+
 from typing import List
+from utils import checkValue
 
 
 class Solution:
     def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
-        n = len(obstacleGrid)
-        m = len(obstacleGrid[0])
-        dp = [[0] * (m + 1) for i in range(n + 1)]
-        dp[1][0] = 1
+        if obstacleGrid[0][0] or obstacleGrid[-1][-1]:
+            return 0
+        rows, cols = len(obstacleGrid), len(obstacleGrid[0])
 
-        dp[1][0] = 1
-        for c in range(1, m + 1):
-            for r in range(1, n + 1):
-                if obstacleGrid[r - 1][c - 1] == 1: continue
-                dp[r][c] = dp[r - 1][c] + dp[r][c - 1]
-        return dp[n][m]
+        dp = [[0] * cols for _ in range(rows)]
+        dp[0][0] = 1
+        paths = lambda r, c: 0 if r < 0 or c < 0 else dp[r][c]
 
-
-def log(correct, res):
-    if correct == res:
-        print("[v]", res)
-    else:
-        print(">>> INCORRECT >>>", correct, " | ", res)
+        for r in range(rows):
+            for c in range(cols):
+                if not obstacleGrid[r][c]:
+                    dp[r][c] = paths(r - 1, c) + paths(r, c - 1) + dp[r][c]
+        return dp[-1][-1]
 
 
 t = Solution()
 
-grid = [[0, 0, 0], [0, 1, 0], [0, 0, 0]]
-log(2, t.uniquePathsWithObstacles(grid))
 
-grid = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-log(6, t.uniquePathsWithObstacles(grid))
-
-grid = [[0, 0, 1], [0, 0, 0], [1, 0, 0]]
-log(4, t.uniquePathsWithObstacles(grid))
-
-grid = [[0, 1, 0], [0, 1, 0], [0, 1, 0]]
-log(0, t.uniquePathsWithObstacles(grid))
+checkValue(2, t.uniquePathsWithObstacles([[0, 0, 0], [0, 1, 0], [0, 0, 0]]))
+checkValue(0, t.uniquePathsWithObstacles([[1, 0, 0], [0, 1, 0], [0, 0, 0]]))
+checkValue(0, t.uniquePathsWithObstacles([[0, 0, 0], [0, 1, 0], [0, 0, 1]]))
+checkValue(0, t.uniquePathsWithObstacles([[0, 0, 0], [0, 1, 1], [0, 1, 0]]))
+checkValue(1, t.uniquePathsWithObstacles([[0, 1], [0, 0]]))
+checkValue(0, t.uniquePathsWithObstacles([[1]]))
