@@ -15,7 +15,6 @@
 # from the given list of words.
 
 
-
 # Example 1:
 # Input: ["a","b","ba","bca","bda","bdca"]
 # Output: 4
@@ -28,17 +27,22 @@
 # words[i] only consists of English lowercase letters.
 
 from typing import List
+from functools import lru_cache
 
 
 class Solution:
     def isPredecessor(self, p: str, c: str):
-        if len(c) - len(p) != 1: return False
+        if len(c) - len(p) != 1:
+            return False
         i = j = 0
         skipped = False
         while i < len(p):
-            if p[i] == c[j]: i, j = i + 1, j + 1
-            elif not skipped: skipped, j = True, j + 1
-            else: return False
+            if p[i] == c[j]:
+                i, j = i + 1, j + 1
+            elif not skipped:
+                skipped, j = True, j + 1
+            else:
+                return False
         return True
 
     def longestStrChain(self, words: List[str]) -> int:
@@ -46,8 +50,30 @@ class Solution:
         dp = [1] * (len(words) + 1)
         for i, word in enumerate(words):
             for j in range(i):
-                if self.isPredecessor(words[j], word): dp[i + 1] = dp[j + 1] + 1
+                if self.isPredecessor(words[j], word):
+                    dp[i + 1] = dp[j + 1] + 1
         return max(dp)
+
+    # Top-Down DP
+    def longestStrChainTDDP(self, words: List[str]) -> int:
+        @lru_cache(maxsize=None)
+        def dfs(word):
+            if len(word) == 1:
+                return 1
+
+            res = 0
+            for i in range(len(word)):
+                candidate = word[0:i] + word[i + 1 :]
+                if candidate in words:
+                    res = max(res, dfs(candidate))
+            return res + 1
+
+        words = set(words)
+        res = 1
+        for word in words:
+            res = max(res, dfs(word))
+        return res
+
 
 def log(correct, res):
     if correct == res:
@@ -60,10 +86,35 @@ t = Solution()
 
 log(True, t.isPredecessor("a", "ba"))
 log(True, t.isPredecessor("a", "ab"))
-log(4, t.longestStrChain(["a","b","ba","bca","bda","bdca"]))
-log(4, t.longestStrChain(["bdca","a","bda","b","ba","bca"]))
-log(5, t.longestStrChain(["a","b","ba","ksqar","bca","bda","bdca","ka","ksa","ksqa"]))
+log(4, t.longestStrChain(["a", "b", "ba", "bca", "bda", "bdca"]))
+log(4, t.longestStrChain(["bdca", "a", "bda", "b", "ba", "bca"]))
+log(
+    5,
+    t.longestStrChain(
+        ["a", "b", "ba", "ksqar", "bca", "bda", "bdca", "ka", "ksa", "ksqa"]
+    ),
+)
 log(1, t.longestStrChain(["a"]))
 
-words = ["ksqvsyq","ks","kss","czvh","zczpzvdhx","zczpzvh","zczpzvhx","zcpzvh","zczvh","gr","grukmj","ksqvsq","gruj","kssq","ksqsq","grukkmj","grukj","zczpzfvdhx","gru"]
+words = [
+    "ksqvsyq",
+    "ks",
+    "kss",
+    "czvh",
+    "zczpzvdhx",
+    "zczpzvh",
+    "zczpzvhx",
+    "zcpzvh",
+    "zczvh",
+    "gr",
+    "grukmj",
+    "ksqvsq",
+    "gruj",
+    "kssq",
+    "ksqsq",
+    "grukkmj",
+    "grukj",
+    "zczpzfvdhx",
+    "gru",
+]
 log(7, t.longestStrChain(words))
