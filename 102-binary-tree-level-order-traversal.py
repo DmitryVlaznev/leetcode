@@ -27,31 +27,66 @@ class TreeNode:
         self.left = left
         self.right = right
 
+
 class Solution:
     @staticmethod
     def fromArray(nodes: List[int], i: int) -> TreeNode:
         l = len(nodes)
-        if not l: return None
+        if not l:
+            return None
         node = TreeNode(nodes[i])
         ch_i = 2 * i + 1
-        node.left = Solution.fromArray(nodes, ch_i) if ch_i < l and nodes[ch_i] != None else None
+        node.left = (
+            Solution.fromArray(nodes, ch_i)
+            if ch_i < l and nodes[ch_i] != None
+            else None
+        )
         ch_i += 1
-        node.right = Solution.fromArray(nodes, ch_i) if ch_i< l and nodes[ch_i] != None else None
+        node.right = (
+            Solution.fromArray(nodes, ch_i)
+            if ch_i < l and nodes[ch_i] != None
+            else None
+        )
         return node
 
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
-        if not root: return []
+        if not root:
+            return []
 
         def preorder(node: TreeNode, depth: int, traversal: List[List[int]]):
-            while len(traversal) <= depth: traversal.append([])
-            if node.val != None: traversal[depth].append(node.val)
-            if node.left != None: traversal = preorder(node.left, depth + 1, traversal)
-            if node.right != None: traversal = preorder(node.right, depth + 1, traversal)
+            while len(traversal) <= depth:
+                traversal.append([])
+            if node.val != None:
+                traversal[depth].append(node.val)
+            if node.left != None:
+                traversal = preorder(node.left, depth + 1, traversal)
+            if node.right != None:
+                traversal = preorder(node.right, depth + 1, traversal)
             return traversal
 
         return preorder(root, 0, [])
 
+    def levelOrder2(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        from collections import deque
+
+        res, dq = [], deque([root])
+        while dq:
+            l = len(dq)
+            res.append([])
+            while l:
+                node = dq.popleft()
+                res[-1].append(node.val)
+                if node.left:
+                    dq.append(node.left)
+                if node.right:
+                    dq.append(node.right)
+                l -= 1
+        return res
+
+
 t = Solution()
 
-print(t.levelOrder(t.fromArray([3,9,20,None,None,15,7], 0)))
+print(t.levelOrder(t.fromArray([3, 9, 20, None, None, 15, 7], 0)))
 print(t.levelOrder(t.fromArray([], 0)))
