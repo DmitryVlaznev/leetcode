@@ -16,23 +16,16 @@
 # The order of your output does not matter.
 
 from typing import List
+from collections import defaultdict
 
 
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        groups = {}
+        groups = defaultdict(list)
         for item in strs:
-            key = ''.join(sorted(item))
-            if key in groups:
-                groups[key].append(item)
-            else:
-                groups[key] = [item]
+            groups["".join(sorted(item))].append(item)
+        return groups.values()
 
-        res = []
-        for key in groups:
-            res.append(groups[key])
-
-        return res
 
 t = Solution()
 print(t.groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
