@@ -44,9 +44,30 @@
 # s contains only digits and may contain leading zero(s).
 
 from utils import checkValue
+from functools import lru_cache
 
 
 class Solution:
+    def numDecodings(self, s: str) -> int:
+        letters = {str(i): chr(ord("A") + i - 1) for i in range(1, 27)}
+
+        @lru_cache(maxsize=None)
+        def dfs(s: str, start):
+            if start == len(s):
+                return 1
+
+            res = 0
+            if s[start : start + 1] in letters:
+                res += dfs(s, start + 1)
+            if start + 2 <= len(s) and s[start : start + 2] in letters:
+                res += dfs(s, start + 2)
+            return res
+
+        res = dfs(s, 0)
+        return res if res is not None else 0
+
+
+class Solution2:
     def __init__(self):
         self.memo = {}
 
@@ -91,7 +112,6 @@ checkValue(0, t.numDecodings("0"))
 checkValue(1, t.numDecodings("102"))
 checkValue(1, t.numDecodings("10"))
 checkValue(0, t.numDecodings("00002"))
-
 checkValue(1, t.numDecodings("2101"))
 checkValue(0, t.numDecodings("021"))
 checkValue(3, t.numDecodings("1201234"))
