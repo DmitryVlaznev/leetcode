@@ -47,6 +47,7 @@ class Solution:
         )
         words = list(filter(lambda w: w, words.split(" ")))
 
+        banned = set(banned)
         for word, count in Counter(words).most_common():
             if word not in banned:
                 return word
@@ -64,4 +65,8 @@ checkValue(
 checkValue(
     "b",
     t.mostCommonWord("a, a, a, a, b,b,b,c, c", ["a"]),
+)
+checkValue(
+    "bob",
+    t.mostCommonWord("Bob", []),
 )
