@@ -36,8 +36,6 @@ from utils import checkValue
 
 class Solution:
     def validMountainArray(self, arr: List[int]) -> bool:
-        functools.reduce(lambda acc, v, i: acc)
-
         if len(arr) < 3:
             return False
         state = 0

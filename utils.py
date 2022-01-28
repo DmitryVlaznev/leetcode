@@ -106,7 +106,7 @@ def treeToArray(root: TreeNode) -> List[int]:
 #     return res
 
 
-def treeFromArray(nodes: List[int], i: int) -> TreeNode:
+def treeFromArray(nodes: List[int], i: int = 0) -> TreeNode:
     l = len(nodes)
     node = TreeNode(nodes[i])
     ch_i = 2 * i + 1
