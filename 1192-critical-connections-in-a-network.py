@@ -31,6 +31,45 @@ class Solution:
     def criticalConnections(
         self, n: int, connections: List[List[int]]
     ) -> List[List[int]]:
+        links = set()
+        graph = defaultdict(list)
+        for a, b in connections:
+            graph[a].append(b)
+            graph[b].append(a)
+            links.add((min(a, b), max(a, b)))
+
+        distances = defaultdict(lambda: None)
+
+        def dfs(node, parent=None):
+            if distances[node]:
+                return distances[node]
+
+            distances[node] = 1 if parent is None else distances[parent] + 1
+            min_distance = distances[node]
+
+            for neighbor in graph[node]:
+                if neighbor == parent:
+                    continue
+                neighbor_distance = dfs(neighbor, node)
+                if neighbor_distance <= distances[node]:
+                    if (min(node, neighbor), max(node, neighbor)) in links:
+                        links.remove((min(node, neighbor), max(node, neighbor)))
+
+                min_distance = min(min_distance, neighbor_distance)
+
+            distances[node] = min_distance
+            return min_distance
+
+        dfs(0)
+        res = []
+        for u, v in links:
+            res.append([u, v])
+
+        return res
+
+    def criticalConnections2(
+        self, n: int, connections: List[List[int]]
+    ) -> List[List[int]]:
         seen, ranks, back_ranks, res = [False] * n, [-1] * n, [-1] * n, []
         self.current_rank = 0
         graph = defaultdict(list)

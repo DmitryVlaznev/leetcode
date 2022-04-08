@@ -32,8 +32,8 @@
 
 # Constraints:
 # 1 <= coins.length <= 12
-# 1 <= coins[i] <= 231 - 1
-# 0 <= amount <= 104
+# 1 <= coins[i] <= 2^31 - 1
+# 0 <= amount <= 10^4
 
 from typing import List
 from utils import checkValue
@@ -47,3 +47,21 @@ class Solution:
             for c in coins:
                 dp[i] = min(dp[i], dp[i - c] + 1) if i - c >= 0 else dp[i]
         return dp[-1] if dp[-1] != float("inf") else -1
+
+    def coinChangeCoins(self, coins: List[int], amount: int) -> List[int]:
+        dp = [float("inf")] * (amount + 1)
+        res = [[] for _ in range(amount + 1)]
+        dp[0] = 0
+        for i in range(1, amount + 1):
+            for c in coins:
+                if i - c >= 0 and dp[i - c] != float("inf"):
+                    if dp[i - c] + 1 < dp[i]:
+                        dp[i] = dp[i - c] + 1
+                        res[i] = res[i - c][:] + [c]
+        return res[-1] if dp[-1] != float("inf") else []
+
+
+s = Solution()
+print(s.coinChangeCoins([1, 2, 5], 11))
+print(s.coinChangeCoins([1], 1))
+print(s.coinChangeCoins([2], 3))
