@@ -21,6 +21,21 @@ from typing import List
 
 class Solution:
     def generateMatrix(self, n: int) -> List[List[int]]:
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        res = [[None] * n for _ in range(n)]
+        x, y, i, d = 0, 0, 1, 0
+        while i <= n ** 2:
+            res[x][y] = i
+            xn, yn = x + dirs[d][0], y + dirs[d][1]
+            if 0 <= xn < n and 0 <= yn < n and res[xn][yn] is None:
+                x, y = xn, yn
+            else:
+                d = d + 1 if d < 3 else 0
+                x, y = x + dirs[d][0], y + dirs[d][1]
+            i += 1
+        return res
+
+    def generateMatrix2(self, n: int) -> List[List[int]]:
         res = [[None] * n for r in range(n)]
 
         r, c, d, p, target = 0, 0, "right", 1, n ** 2
@@ -56,6 +71,6 @@ class Solution:
 
 
 t = Solution()
-t.generateMatrix(2)
-t.generateMatrix(3)
-t.generateMatrix(4)
+print(t.generateMatrix(2))
+print(t.generateMatrix(3))
+print(t.generateMatrix(4))

@@ -30,13 +30,10 @@
 # The number of nodes in the tree is in the range [1, 1000].
 # Node.val is 0 or 1.
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
+
 from utils import TreeNode
 from typing import Optional
+from collections import deque
 
 
 class Solution:
@@ -55,4 +52,22 @@ class Solution:
                 dfs(node.right, acc)
 
         dfs(root, 0)
+        return res
+
+    def sumRootToLeaf2(self, root: Optional[TreeNode]) -> int:
+        res, dq = 0, deque()
+        dq.append((root, 0))
+        while dq:
+            l = len(dq)
+            while l:
+                l -= 1
+                node, n = dq.popleft()
+                n = (n << 1) | node.val
+                if not node.left and not node.right:
+                    res += n
+                    continue
+                if node.left:
+                    dq.append((node.left, n))
+                if node.right:
+                    dq.append((node.right, n))
         return res
