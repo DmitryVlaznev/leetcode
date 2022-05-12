@@ -51,40 +51,23 @@ from utils import TreeNode, checkValue, treeFromArray
 
 
 class BSTIterator:
-    root = None
-    last = None
-    path = None
-    returned = 0
-
     def __init__(self, root: TreeNode):
-        self.root = root
-        self.path = []
-
-    def go_left(self, node) -> int:
-        p = node
-        while p:
-            self.path.append(p)
-            p = p.left
+        self.stack = []
+        while root:
+            self.stack.append(root)
+            root = root.left
 
     def next(self) -> int:
-        self.returned += 1
-        if not self.path:
-            self.go_left(self.root)
-            return self.path[-1].val
-
-        if not self.path[-1].right:
-            self.path.pop()
-        else:
-            self.go_left(self.path.pop().right)
-        return self.path[-1].val
+        node = self.stack.pop()
+        v = node.val
+        node = node.right
+        while node:
+            self.stack.append(node)
+            node = node.left
+        return v
 
     def hasNext(self) -> bool:
-        # print(self.path)
-        if self.root and self.returned == 0:
-            return True
-        if len(self.path) > 1 or len(self.path) == 1 and self.path[0].right:
-            return True
-        return False
+        return len(self.stack) > 0
 
 
 print("---------------------")
