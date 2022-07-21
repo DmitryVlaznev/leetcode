@@ -95,6 +95,7 @@ log(
     ),
 )
 log(1, t.longestStrChain(["a"]))
+log(4, t.longestStrChainTDDP(["a", "ab", "ac", "bd", "abc", "abd", "abdd"]))
 
 words = [
     "ksqvsyq",

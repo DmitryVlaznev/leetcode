@@ -41,12 +41,8 @@ from typing import List
 class Solution:
     def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
         boxTypes.sort(key=lambda b: b[1])
-        res = 0
-        for boxes, items in reversed(boxTypes):
-            if truckSize == 0:
-                return res
-
-            b = min(boxes, truckSize)
-            res += b * items
-            truckSize -= b
+        res, i = 0, len(boxTypes) - 1
+        while truckSize > 0 and i >= 0:
+            boxes = min(boxTypes[i][0], truckSize)
+            res, i, truckSize = res + boxes * boxTypes[i][1], i - 1, truckSize - boxes
         return res
