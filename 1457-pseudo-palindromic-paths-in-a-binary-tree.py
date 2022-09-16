@@ -37,7 +37,6 @@
 # The given binary tree will have between 1 and 10^5 nodes.
 # Node values are digits from 1 to 9.
 
-from typing import List
 from utils import TreeNode, checkValue, treeFromArray
 
 
