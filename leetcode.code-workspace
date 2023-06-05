@@ -2,11 +2,18 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../../go/pkg/mod"
 		}
 	],
 	"settings": {
 		"python.pythonPath": "/home/vlad/Projects/leetcode/.venv/bin/python",
-		"python.formatting.blackPath": "/home/vlad/Projects/leetcode/.venv/bin/black"
+		"python.formatting.blackPath": "/home/vlad/Projects/leetcode/.venv/bin/black",
+		"cSpell.words": [
+			"popleft"
+		],
+		"editor.rulers": [72, 88],
 	}
 
 }

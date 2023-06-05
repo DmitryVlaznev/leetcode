@@ -40,7 +40,7 @@
 
 
 class Solution:
-    def halvesAreAlike(self, s: str) -> bool:
+    def halvesAreAlike2(self, s: str) -> bool:
         vowels = set(["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"])
         mid = len(s) // 2
         left = right = 0
@@ -51,6 +51,15 @@ class Solution:
             if l in vowels:
                 right += 1
         return left == right
+
+    def halvesAreAlike(self, s: str) -> bool:
+        vowels = set(["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"])
+        v = 0
+        for i in range(len(s)):
+            d = -1 if i >= len(s) // 2 else 1
+            if s[i] in vowels:
+                v += d
+        return v == 0
 
 
 t = Solution()
