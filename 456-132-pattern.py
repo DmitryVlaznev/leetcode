@@ -55,6 +55,26 @@ class Solution:
                 nums[k] = nums[i]
         return False
 
+    def find132pattern2(self, nums: List[int]) -> bool:
+        if len(nums) < 3:
+            return False
+
+        l_mins = [nums[0]]
+        for i in range(1, len(nums)):
+            l_mins.append(min(l_mins[i - 1], nums[i]))
+
+        import heapq
+
+        h = []
+        for i in range(len(nums) - 1, 0, -1):
+            while h and h[0] <= l_mins[i]:
+                heapq.heappop(h)
+            if h and nums[i] > h[0]:
+                return True
+            if nums[i] > l_mins[i]:
+                heapq.heappush(h, nums[i])
+        return False
+
 
 t = Solution()
 

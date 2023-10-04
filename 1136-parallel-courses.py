@@ -40,6 +40,37 @@ from utils import checkValue
 
 class Solution:
     def minimumSemesters(self, n: int, relations: List[List[int]]) -> int:
+        from collections import defaultdict
+
+        graph = defaultdict(list)
+        for s, d in relations:
+            graph[s].append(d)
+
+        visited = {}
+
+        def dfs(s: int) -> int:
+            if s in visited:
+                return visited[s]
+
+            visited[s] = -1
+            max_len = 1
+            for d in graph[s]:
+                d_len = dfs(d)
+                if d_len == -1:
+                    return -1
+                max_len = d_len + 1 if d_len + 1 > max_len else max_len
+            visited[s] = max_len
+            return visited[s]
+
+        max_len = 0
+        for d in range(n):
+            d_len = dfs(d)
+            if d_len == -1:
+                return -1
+            max_len = d_len if d_len > max_len else max_len
+        return max_len
+
+    def minimumSemesters2(self, n: int, relations: List[List[int]]) -> int:
         graph = [[] for _ in range(n + 1)]
         r_graph = [[] for _ in range(n + 1)]
         for fr, to in relations:

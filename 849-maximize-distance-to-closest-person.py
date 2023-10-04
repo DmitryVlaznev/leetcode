@@ -45,6 +45,24 @@ from utils import checkValue
 
 class Solution:
     def maxDistToClosest(self, seats: List[int]) -> int:
+        ltr = [float("inf")] * len(seats)
+        ltr[0] = 0 if seats[0] == 1 else float("inf")
+        for i in range(1, len(seats)):
+            ltr[i] = 0 if seats[i] == 1 else ltr[i - 1] + 1
+
+        rtl = [float("inf")] * len(seats)
+        rtl[-1] = 0 if seats[-1] == 1 else float("inf")
+        for i in reversed(range(0, len(seats) - 1)):
+            rtl[i] = 0 if seats[i] == 1 else rtl[i + 1] + 1
+
+        res = float("-inf")
+        for i in range(0, len(seats)):
+            if ltr[i] == rtl[i] == 0:
+                continue
+            res = max(res, min(ltr[i], rtl[i]))
+        return res
+
+    def maxDistToClosest2(self, seats: List[int]) -> int:
         p, max_side_gap, max_int_gap = 0, 0, 0
         while not seats[p]:
             max_side_gap += 1

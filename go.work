@@ -4,6 +4,7 @@ use (
 	./golang/1091-shortest-path-in-binary-matrix
 	./golang/1232-check-if-it-is-a-straight-line
 	./golang/1376-time-needed-to-inform-all-employees
+	./golang/1502-can-make-arithmetic-progression-from-sequence
 	./golang/2101-detonate-the-maximum-bombs
 	./golang/547-number-of-provinces
 	./golang/utils

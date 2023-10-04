@@ -22,8 +22,20 @@
 #    repeated more than once.
 
 from typing import List
+
+
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
+        slow, fast = nums[0], nums[nums[fast]]
+        while slow != fast:
+            slow, fast = nums[slow], nums[nums[fast]]
+
+        fast = 0
+        while slow != fast:
+            slow, fast = nums[slow], nums[fast]
+        return slow
+
+    def findDuplicate2(self, nums: List[int]) -> int:
         slow = fast = 0
         slow = nums[slow]
         fast = nums[nums[fast]]
@@ -37,7 +49,8 @@ class Solution:
             fast = nums[fast]
         return slow
 
+
 test = Solution()
-print("2 = ", test.findDuplicate([1,3,4,2,2]))
-print("3 = ", test.findDuplicate([3,1,3,4,2]))
-print("9 = ", test.findDuplicate([2,5,9,6,9,3,8,9,7,1]))
+print("2 = ", test.findDuplicate([1, 3, 4, 2, 2]))
+print("3 = ", test.findDuplicate([3, 1, 3, 4, 2]))
+print("9 = ", test.findDuplicate([2, 5, 9, 6, 9, 3, 8, 9, 7, 1]))
