@@ -33,6 +33,13 @@ from functools import lru_cache
 
 class Solution:
     def minCostClimbingStairs(self, cost: List[int]) -> int:
+        l, r = cost[0], cost[1]
+        for c in cost[2:]:
+            t = min(l + c, r + c)
+            l, r = r, t
+        return min(l, r)
+
+    def minCostClimbingStairs2(self, cost: List[int]) -> int:
         @lru_cache(maxsize=None)
         def step(i):
             if i >= len(cost):

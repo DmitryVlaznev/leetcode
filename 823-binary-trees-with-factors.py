@@ -33,6 +33,27 @@ from utils import checkValue
 
 class Solution:
     def numFactoredBinaryTrees(self, arr: List[int]) -> int:
+        arr.sort()
+        m = {}
+        m[arr[0]] = 1
+
+        def multiplliers(l, r, target: int):
+            sub_res = 0
+            while l <= r:
+                cand = arr[l] * arr[r]
+                if cand == target:
+                    mm = 1 if l == r else 2
+                    sub_res += m[arr[l]] * m[arr[r]] * mm
+                l, r = (l, r - 1) if cand > target else (l + 1, r)
+            return sub_res
+
+        res = 1
+        for i in range(1, len(arr)):
+            m[arr[i]] = multiplliers(0, i - 1, arr[i]) + 1
+            res += m[arr[i]]
+        return res % (10 ** 9 + 7)
+
+    def numFactoredBinaryTrees2(self, arr: List[int]) -> int:
         mod = 10 ** 9 + 7
         arr.sort()
         dp = [1] * len(arr)

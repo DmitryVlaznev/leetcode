@@ -31,8 +31,35 @@
 
 # Can you solve it in O(N) time and O(1) space?
 
+
 class Solution:
-    def backspaceCompare(self, S: str, T: str) -> bool:
+    def backspaceCompare(self, s: str, t: str) -> bool:
+        def next_symbol_ptr(ptr, str):
+            if ptr < 0:
+                return ptr
+            hashes = 0
+            while str[ptr] == "#":
+                hashes += 1
+                ptr -= 1
+
+            while ptr >= 0 and (hashes or str[ptr] == "#"):
+                if str[ptr] == "#":
+                    hashes += 1
+                else:
+                    hashes -= 1
+                ptr -= 1
+            return ptr
+
+        ps = next_symbol_ptr(len(s) - 1, s)
+        pt = next_symbol_ptr(len(t) - 1, t)
+        while ps >= 0 and pt >= 0:
+            if s[ps] != t[pt]:
+                return False
+            ps = next_symbol_ptr(ps - 1, s)
+            pt = next_symbol_ptr(pt - 1, t)
+        return ps == pt
+
+    def backspaceCompare2(self, S: str, T: str) -> bool:
         p = len(S) - 1
         q = len(T) - 1
         bs = bt = 0
@@ -49,7 +76,8 @@ class Solution:
                 q -= 1
                 next_t = T[q] if q >= 0 else ""
 
-            if next_s != next_t: return False
+            if next_s != next_t:
+                return False
             p -= 1
             q -= 1
         return True
@@ -67,5 +95,3 @@ print("True = ", t.backspaceCompare("", ""))
 print("True = ", t.backspaceCompare("xywrrmp", "xywrrmu#p"))
 print("False = ", t.backspaceCompare("bxj##tw", "bxj###tw"))
 print("False = ", t.backspaceCompare("bbbextm", "bbb#extm"))
-
-
