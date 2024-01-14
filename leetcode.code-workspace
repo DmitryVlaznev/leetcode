@@ -13,7 +13,12 @@
 		"cSpell.words": [
 			"popleft"
 		],
-		"editor.rulers": [72, 88],
+		"editor.rulers": [
+			72,
+			88
+		],
+		
 	}
+	
 
 }

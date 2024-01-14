@@ -1,1 +1,1 @@
-disable=all
+ignore-patterns=*.py

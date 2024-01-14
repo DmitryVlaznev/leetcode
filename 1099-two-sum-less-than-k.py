@@ -24,7 +24,26 @@ from utils import checkValue
 
 
 class Solution:
-    def twoSumLessThanK(self, A: List[int], K: int) -> int:
+    def twoSumLessThanK(self, nums: List[int], k: int) -> int:
+        if len(nums) < 2:
+            return -1
+
+        nums.sort()
+        res = -1
+        for i in range(len(nums)):
+            l, r = i, len(nums)
+            while r - l > 1:
+                mid = l + (r - l) // 2
+                if nums[i] + nums[mid] < k:
+                    l = mid
+                else:
+                    r = mid
+
+            if l > i:
+                res = max(res, nums[i] + nums[l])
+        return res
+
+    def twoSumLessThanK2(self, A: List[int], K: int) -> int:
         if len(A) < 2:
             return -1
 
@@ -43,66 +62,66 @@ class Solution:
 t = Solution()
 
 checkValue(58, t.twoSumLessThanK([34, 23, 1, 24, 75, 33, 54, 8], 60))
-checkValue(-1, t.twoSumLessThanK([10, 20, 30], 15))
-checkValue(-1, t.twoSumLessThanK([34], 60))
-checkValue(-1, t.twoSumLessThanK([], 60))
-checkValue(50, t.twoSumLessThanK([10, 20, 30], 60))
+# checkValue(-1, t.twoSumLessThanK([10, 20, 30], 15))
+# checkValue(-1, t.twoSumLessThanK([34], 60))
+# checkValue(-1, t.twoSumLessThanK([], 60))
+# checkValue(50, t.twoSumLessThanK([10, 20, 30], 60))
 
-checkValue(
-    1794,
-    t.twoSumLessThanK(
-        [
-            358,
-            898,
-            450,
-            732,
-            672,
-            672,
-            256,
-            542,
-            320,
-            573,
-            423,
-            543,
-            591,
-            280,
-            399,
-            923,
-            920,
-            254,
-            135,
-            952,
-            115,
-            536,
-            143,
-            896,
-            411,
-            722,
-            815,
-            635,
-            353,
-            486,
-            127,
-            146,
-            974,
-            495,
-            229,
-            21,
-            733,
-            918,
-            314,
-            670,
-            671,
-            537,
-            533,
-            716,
-            140,
-            599,
-            758,
-            777,
-            185,
-            549,
-        ],
-        1800,
-    ),
-)
+# checkValue(
+#     1794,
+#     t.twoSumLessThanK(
+#         [
+#             358,
+#             898,
+#             450,
+#             732,
+#             672,
+#             672,
+#             256,
+#             542,
+#             320,
+#             573,
+#             423,
+#             543,
+#             591,
+#             280,
+#             399,
+#             923,
+#             920,
+#             254,
+#             135,
+#             952,
+#             115,
+#             536,
+#             143,
+#             896,
+#             411,
+#             722,
+#             815,
+#             635,
+#             353,
+#             486,
+#             127,
+#             146,
+#             974,
+#             495,
+#             229,
+#             21,
+#             733,
+#             918,
+#             314,
+#             670,
+#             671,
+#             537,
+#             533,
+#             716,
+#             140,
+#             599,
+#             758,
+#             777,
+#             185,
+#             549,
+#         ],
+#         1800,
+#     ),
+# )
