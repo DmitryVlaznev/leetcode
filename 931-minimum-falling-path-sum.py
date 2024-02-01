@@ -29,6 +29,19 @@ from typing import List
 class Solution:
     def minFallingPathSum(self, matrix: List[List[int]]) -> int:
         n = len(matrix)
+        dp = matrix[0][:]
+        for row in range(1, n):
+            dp_row = [0] * n
+            for col in range(0, n):
+                left = dp[col - 1] if col > 0 else float("inf")
+                top = dp[col]
+                right = dp[col + 1] if col < n - 1 else float("inf")
+                dp_row[col] = min(left, top, right) + matrix[row][col]
+            dp = dp_row
+        return min(dp)
+
+    def minFallingPathSum2(self, matrix: List[List[int]]) -> int:
+        n = len(matrix)
         dp = [[float("inf")] * n for _ in range(n)]
         dp[0] = matrix[0][:]
 
@@ -39,3 +52,7 @@ class Solution:
                 right = dp[row - 1][col + 1] if col < n - 1 else float("inf")
                 dp[row][col] = min(left, top, right) + matrix[row][col]
         return min(dp[-1])
+
+
+s = Solution()
+s.minFallingPathSum([[2, 1, 3], [6, 5, 4], [7, 8, 9]])
