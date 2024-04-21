@@ -20,7 +20,22 @@ from typing import List
 
 class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
-        if len(nums) < 1: return nums
+        nums.sort()
+        dp = [None] * len(nums)
+        for i in range(len(nums)):
+            dp[i] = [nums[i]]
+            for j in range(i - 1, -1, -1):
+                if nums[i] % nums[j] == 0 and len(dp[j]) + 1 > len(dp[i]):
+                    dp[i] = dp[j] + [nums[i]]
+        res = []
+        for i in range(len(dp)):
+            if len(dp[i]) > len(res):
+                res = dp[i]
+        return res
+
+    def largestDivisibleSubset2(self, nums: List[int]) -> List[int]:
+        if len(nums) < 1:
+            return nums
         nums.sort()
         max_idx = 0
         divisors = [1 for i in range(len(nums))]

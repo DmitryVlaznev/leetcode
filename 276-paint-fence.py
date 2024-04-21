@@ -29,13 +29,17 @@
 
 # Constraints:
 # 1 <= n <= 50
-# 1 <= k <= 105
+# 1 <= k <= 10^5
 # The testcases are generated such that the answer is in the range [0,
 # 231 - 1] for the given n and k.
 
 
 class Solution:
+
     def numWays(self, n: int, k: int) -> int:
+        pass
+
+    def numWays2(self, n: int, k: int) -> int:
         if n == 1:
             return k
         if n == 2:

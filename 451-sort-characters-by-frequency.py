@@ -28,25 +28,29 @@
 # "bbaA" is also a valid answer, but "Aabb" is incorrect.
 # Note that 'A' and 'a' are treated as two different characters.
 
+from collections import Counter
+
+
 class Solution:
     def frequencySort(self, s: str) -> str:
         # O(n)
-        m, fr = 0, {}
-        for l in s:
-            fr[l] = 1 if l not in fr else fr[l] + 1
-            m = max(m, fr[l])
-        strings = [""] * (m + 1)
-        for l, c in fr.items():
-            strings[c] += "".join([l] * c)
-        strings.reverse()
-        return "".join(strings)
+        # m, fr = 0, {}
+        # for l in s:
+        #     fr[l] = 1 if l not in fr else fr[l] + 1
+        #     m = max(m, fr[l])
+        # strings = [""] * (m + 1)
+        # for l, c in fr.items():
+        #     strings[c] += "".join([l] * c)
+        # strings.reverse()
+        # return "".join(strings)
 
-        # O(n log n)
-        # pairs = Counter(s).most_common()
-        # res = ""
-        # for pair in pairs:
-        #     res += "".join([pair[0]] * pair[1])
-        # return res
+        # O(n log n) ?
+        pairs = Counter(s).most_common()
+        res = []
+        for pair in pairs:
+            res.append("".join([pair[0]] * pair[1]))
+        return "".join(res)
+
 
 t = Solution()
 print(t.frequencySort("tree"))

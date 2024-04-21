@@ -26,61 +26,33 @@
 # Explanation: Remove all the digits from the number and it is left with
 # nothing which is 0.
 
+
 class Solution:
-    def removeZeroes(self, num: str, l: int, start: int, k: int) -> (int, int):
-        p = start
-        c = k
-        while c > 0 and p < l and num[p] != "0":
-            p += 1
-            c -= 1
-        if c == 0 and p < l and num[p] != "0":
-            return start, k
-        while p < l and num[p] == "0":
-            p += 1
-        return p, c
-
     def removeKdigits(self, num: str, k: int) -> str:
-        l = len(num)
+        stack = []
+        for n in num:
+            while stack and int(n) < stack[-1] and k:
+                k -= 1
+                stack.pop()
+            stack.append(int(n))
+        while k:
+            stack.pop()
+            k -= 1
         start = 0
-        c = k
-        new_start, new_c = self.removeZeroes(num, l, start, c)
-        while new_start > start and start < l:
-            start, c = new_start, new_c
-            new_start, new_c = self.removeZeroes(num, l, start, c)
-        if l - start <= c: return "0"
+        while start < len(stack) and stack[start] == 0:
+            start += 1
+        return "".join([str(n) for n in stack[start:]]) or "0"
 
-        res = ""
-        while c > 0 and start < l:
-            p = 0
-            min_item = float("inf")
-            min_index = -1
-            while p <= c and start + p < l:
-                if int(num[start + p]) < min_item:
-                    min_item = int(num[start + p])
-                    min_index = p
-                p += 1
-            res += str(min_item)
-            start = start + min_index + 1
-            c = c - min_index
-
-        return res + num[start:] if c == 0 else res[:-c]
-
-    # def removeKdigits(self, num: str, k: int) -> str:
-    #     stack=[]
-    #     for n in num:
-    #         while k and stack and stack[-1]>n:
-    #             stack.pop()
-    #             k-=1
-    #         stack.append(n)
-
-    #     stack = stack[:-k] if k else stack
-    #     return "".join(stack).lstrip('0') or "0"
 
 def log(correct, res):
-    if correct == res: print("[v]", res)
-    else: print(">>> INCORRECT >>>", correct, " | ", res)
+    if correct == res:
+        print("[v]", res)
+    else:
+        print(">>> INCORRECT >>>", correct, " | ", res)
+
 
 t = Solution()
+log("0", t.removeKdigits("9", 1))
 log("11", t.removeKdigits("112", 1))
 log("1122", t.removeKdigits("11222", 1))
 log("1219", t.removeKdigits("1432219", 3))

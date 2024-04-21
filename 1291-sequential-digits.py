@@ -24,6 +24,16 @@ from typing import List
 
 class Solution:
     def sequentialDigits(self, low: int, high: int) -> List[int]:
+        digits = "123456789"
+        res = []
+        for l in range(len(str(low)), len(str(high)) + 1):
+            for start in range(0, 10 - l):
+                cand = int(digits[start : start + l])
+                if cand >= low and cand <= high:
+                    res.append(cand)
+        return res
+
+    def sequentialDigits2(self, low: int, high: int) -> List[int]:
         def generate_num(length, start):
             res = 0
             for i in range(length):
